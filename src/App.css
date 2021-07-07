@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
+body {
+  background-color: #e5e5e5;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Header {
+  font-size: 100px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-image: linear-gradient(90deg, #ffac1d, #ff3880);
+  background-size: 140%;
+  background-position: center;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  margin-top: 10px;
+  margin-bottom: 10px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.H2 {
+  margin-left: 5px;
+  display: inline-block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.H1 {
+  font-weight: bold;
+}
+
+.bar {
+  background-image: linear-gradient(90deg, #ffac1d, #ff3880);
+  background-size: 140%;
+  margin: auto;
+  justify-content: center;
+
+  width: 580px;
+  height: 15px;
+  left: 489px;
+  top: 129px;
+
+  background: linear-gradient(90deg, #ffc804 0%, #ff3880 100%);
+  box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.25),
+    inset 3px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bCircle {
+  margin: auto;
+  margin-top: 50px;
+  width: 490px;
+  height: 490px;
+  border-radius: 50%;
+  top: 178px;
+
+  background: #e5e5e5;
+  box-shadow: -6px -6px 15px #ffffff, 6px 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.fCircle {
+  position: absolute;
+  top: 249px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  filter: drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.05));
+  border-radius: 167px;
+}
+.ubutton {
+  display: block;
+  border: none;
+  outline: none;
+  width: 384px;
+  height: 95px;
+  margin: auto;
+  margin-top: 50px;
+  background: #ffefd8;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(255, 122, 0, 0.25);
+  border-radius: 15px;
+}
+
+.uploadPic {
+  height: 430px;
+}
+
+.b_inside {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.Background {
+  width: 100%;
+}
+
+.button:hover {
+}
+
+.Bar2 {
+  align-items: center;
+  margin: auto;
+  margin-top: 90px;
+  width: 1100px;
+  height: 5px;
+  background-color: black;
+}
+.contents {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-around;
+  margin: auto;
+  text-align: center;
+  width: 1100px;
+}
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #fae7a4;
+  border: 8px white solid;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 8px;
+}
+
+.dot1 {
+  background-color: #ffc804;
+}
+
+.S {
+  color: rgb(124, 121, 121);
+}
+.Card {
+  width: 200px;
+  margin-top: -18px;
+}
+
+a {
+  text-decoration: none;
 }

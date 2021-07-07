@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "awsverify3f8c1a58": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "storage": {
+    "awsverifywise": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}
