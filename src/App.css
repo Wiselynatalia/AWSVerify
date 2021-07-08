@@ -17,6 +17,12 @@ body {
   justify-content: center;
 }
 
+label input {
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
 .H2 {
   margin-left: 5px;
   display: inline-block;
@@ -66,13 +72,14 @@ body {
   display: block;
   border: none;
   outline: none;
-  width: 384px;
-  height: 95px;
+  width: 354px;
+  padding: 15px 15px 20px 15px;
   margin: auto;
   margin-top: 50px;
   background: #ffefd8;
   box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(255, 122, 0, 0.25);
   border-radius: 15px;
+  cursor: pointer;
 }
 
 .uploadPic {
@@ -90,7 +97,8 @@ body {
   width: 100%;
 }
 
-.button:hover {
+.ubutton:hover {
+  opacity: 75%;
 }
 
 .Bar2 {
