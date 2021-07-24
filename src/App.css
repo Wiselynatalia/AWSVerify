@@ -3,7 +3,7 @@ body {
 }
 
 .Header {
-  font-size: 100px;
+  font-size: 60px;
   display: flex;
   background-image: linear-gradient(90deg, #ffac1d, #ff3880);
   background-size: 140%;
@@ -15,6 +15,43 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
   justify-content: center;
+}
+
+.Details {
+  background-color: #d8d2c4;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(187, 147, 107, 0.25);
+  border-radius: 5%;
+  width: 100px;
+  height: 60px;
+  top: 5%;
+  left: 2%;
+  position: absolute;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.AudioButton {
+  background: #ffe4f3;
+  box-shadow: -3px -3px 10px #ffffff, 4px 4px 10px rgba(255, 61, 169, 0.3);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 60px;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  right: 5%;
+  top: 5%;
+  color: #ff4689;
+  font-size: 30px;
+  font-weight: bolder;
+  border: none;
+  cursor: pointer;
+  background: #ffe4f3;
 }
 
 label input {
@@ -38,8 +75,8 @@ label input {
   margin: auto;
   justify-content: center;
 
-  width: 580px;
-  height: 15px;
+  width: 480px;
+  height: 12px;
   left: 489px;
   top: 129px;
 
@@ -50,9 +87,9 @@ label input {
 
 .bCircle {
   margin: auto;
-  margin-top: 50px;
-  width: 490px;
-  height: 490px;
+  margin-top: 35px;
+  width: 330px;
+  height: 330px;
   border-radius: 50%;
   top: 178px;
 
@@ -62,20 +99,19 @@ label input {
 
 .fCircle {
   position: absolute;
-  top: 249px;
+  top: 170px;
   left: 50%;
   transform: translate(-50%, 0);
   filter: drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.05));
-  border-radius: 167px;
 }
 .ubutton {
   display: block;
   border: none;
   outline: none;
-  width: 354px;
-  padding: 15px 15px 20px 15px;
+  width: 220px;
+  padding: 5px 5px 10px 5px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 25px;
   background: #ffefd8;
   box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(255, 122, 0, 0.25);
   border-radius: 15px;
@@ -83,7 +119,7 @@ label input {
 }
 
 .uploadPic {
-  height: 430px;
+  height: 290px;
 }
 
 .b_inside {
@@ -104,22 +140,22 @@ label input {
 .Bar2 {
   align-items: center;
   margin: auto;
-  margin-top: 90px;
-  width: 1100px;
-  height: 5px;
+  margin-top: 50px;
+  width: 750px;
+  height: 3px;
   background-color: black;
 }
 .contents {
-  font-size: 20px;
+  font-size: 15px;
   display: flex;
   justify-content: space-around;
   margin: auto;
   text-align: center;
-  width: 1100px;
+  width: 800px;
 }
 .dot {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   background-color: #fae7a4;
   border: 8px white solid;
   border-radius: 50%;
@@ -127,7 +163,7 @@ label input {
   margin-bottom: 8px;
 }
 
-.dot1 {
+.one {
   background-color: #ffc804;
 }
 
@@ -141,4 +177,42 @@ label input {
 
 a {
   text-decoration: none;
+}
+
+.Loading {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ff7a00;
+  font-weight: Bold;
+  font-size: 25px;
+}
+
+.SignOutButton {
+  position: absolute;
+  background-color: #ffefd8;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(255, 122, 0, 0.25);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  left: 12%;
+  top: 5%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Info {
+  background-color: white;
+  width: 250px;
+  height: 500px;
+  position: absolute;
+  left: 2%;
+  top: 13%;
+  overflow: scroll;
 }

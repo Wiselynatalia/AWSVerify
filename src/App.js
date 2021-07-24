@@ -6,7 +6,9 @@ import { BrowserRouter, Route, Switch, NavLink } from "react-router-dom";
 import location from "./location.js";
 import home from "./home.js";
 import Location from "aws-sdk/clients/location";
+import result from "./success.js";
 import awsconfig from "./aws-exports";
+import fail from "./fail.js";
 
 Amplify.configure(awsconfig);
 const App = () => {
@@ -20,9 +22,12 @@ const App = () => {
         <div className="bar"> </div>
         <NavLink to="/" exact></NavLink>
         <NavLink to="/locateuser"></NavLink>
+        <NavLink to="/success"></NavLink>
         <Switch>
           <Route component={home} path="/" exact />
           <Route component={location} path="/locateuser" exact />
+          <Route component={result} path="/success" exact />
+          <Route component={fail} path="/fail" exact />
         </Switch>
       </div>
     </BrowserRouter>

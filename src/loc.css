@@ -1,0 +1,80 @@
+.Summary {
+  width: 650px;
+  height: 600px;
+  margin: auto;
+  margin-top: 40px;
+  text-align: center;
+
+  background: #f3f3f3;
+  box-shadow: -5px -5px 10px #ffffff, 4px 4px 10px rgba(0, 0, 0, 0.25),
+    inset -3px -3px 10px #ffffff, inset 4px 4px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+}
+
+.Title {
+  font-size: 25px;
+  font-weight: bold;
+  padding-left: 30px;
+  padding-top: 20px;
+  margin: 0;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: #fae7a4;
+  border: 8px white solid;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 8px;
+}
+
+.preview {
+  height: 150px;
+}
+
+.whitebox {
+  display: inline-block;
+  width: 522px;
+  height: 51px;
+  left: 459px;
+  top: 582px;
+  background: #f3f3f3;
+  box-shadow: -5px -5px 10px #ffffff, 4px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.Content {
+  padding-top: 15px;
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: left;
+  padding-left: 70px;
+  margin: 5px 0px 20px 0px;
+}
+
+.Confirm {
+  display: inline-block;
+  width: 240px;
+  height: 65px;
+  color: #ff7a00;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+  line-height: 65px;
+  font-size: 30px;
+  background: #ffefd8;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(255, 122, 0, 0.25);
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.Text {
+  padding-left: 10px;
+  text-align: left;
+}
+
+.S {
+  color: rgb(124, 121, 121);
+}
