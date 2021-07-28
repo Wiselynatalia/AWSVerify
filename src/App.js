@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify from "aws-amplify";
 import "./App.css";
 import { BrowserRouter, Route, Switch, NavLink } from "react-router-dom";
 import location from "./location.js";
 import home from "./home.js";
-import Location from "aws-sdk/clients/location";
 import result from "./success.js";
 import awsconfig from "./aws-exports";
 import fail from "./fail.js";

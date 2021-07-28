@@ -2,33 +2,66 @@ import React, { useEffect, useState } from "react";
 import "./loc.css";
 import Amplify, { Auth } from "aws-amplify";
 import { useLocation, useHistory } from "react-router-dom";
-import audio from "./summary.mp3";
 import { Ripple } from "react-spinners-css";
 import { Icon, InlineIcon } from "@iconify/react";
 import signOut16 from "@iconify/icons-octicon/sign-out-16";
+import awsconfig from "./aws-exports";
 
 export default function Location() {
-  const [imagestore, setImagestore] = useState(null);
+  const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");
+  const {
+    fromCognitoIdentityPool,
+  } = require("@aws-sdk/credential-provider-cognito-identity");
+  const { Polly } = require("@aws-sdk/client-polly");
+  const REGION = "us-east-2";
+  const polly = new Polly({
+    apiVersion: "2016-06-10",
+    region: REGION,
+    credentials: fromCognitoIdentityPool({
+      client: new CognitoIdentityClient({ region: REGION }),
+      identityPoolId: "us-east-2:a7c0847c-d830-4bd4-8cfd-665bb65b8fbe", // IDENTITY_POOL_ID
+    }),
+  });
   const [data, setData] = useState(null);
-  // const [name, setName] = usestate(null);
   const lol = localStorage.getItem("someimgs");
   const location = useLocation();
   const [flag, setFlag] = useState(false);
-  var idname = "";
+  const [info, setInfo] = useState(false);
+  const AWS = require("aws-sdk");
+  AWS.config.region = "us-east-2"; // Region
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: "us-east-2:a7c0847c-d830-4bd4-8cfd-665bb65b8fbe",
+  });
+
+  var params = {
+    OutputFormat: "mp3",
+    SampleRate: "22050",
+    Text: "Here is a summary page of your details. Please click the verify button to continue!",
+    TextType: "text",
+    VoiceId: "Joanna",
+  };
 
   const playAudio = () => {
-    new Audio(audio).play();
-    console.log("AUDIO");
+    var signer = new AWS.Polly.Presigner(params, polly);
+    signer.getSynthesizeSpeechUrl(params, function (error, url) {
+      if (error) console.log(error);
+      else {
+        var audioElement = new Audio();
+        audioElement.src = url;
+        audioElement.play();
+      }
+    });
   };
 
   useEffect(() => {
-    setImagestore(lol);
     setData(location.state);
-  });
+  }, [lol]);
 
   useEffect(() => {
     console.log("Var:", data);
-    setFlag(true);
+    if (data != null) {
+      setFlag(true);
+    }
   }, [data]);
 
   async function signOut() {
@@ -41,6 +74,7 @@ export default function Location() {
   }
   const history = useHistory();
   const Final = () => {
+    localStorage.clear();
     if (flag == true) {
       if (data.CSame == true && data.FSame == true) {
         console.log("SUCCESS");
@@ -51,12 +85,29 @@ export default function Location() {
       }
     }
   };
+  const onButtonClickHandler = () => {
+    setInfo(!info);
+  };
 
   return (
     <div>
       <button className="AudioButton" onClick={playAudio}>
         ?
       </button>
+      <button className="Details" onClick={onButtonClickHandler}>
+        Details
+      </button>
+      {info && (
+        <div className="Info">
+          <b>Amazon Rekognition</b>
+          <br />
+          {data.Rekognition};
+          <br />
+          <br />
+          <b> Polly Script:</b> <br />
+          {JSON.stringify(params)}
+        </div>
+      )}
       <div className="SignOutButton" onClick={signOut}>
         {" "}
         <Icon icon={signOut16} style={{ color: "#ff7a00", fontSize: "30px" }} />

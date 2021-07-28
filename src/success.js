@@ -38,9 +38,9 @@ export default function Fail() {
           credentials (photo or location) matches with your configured
           information in our system.
         </p>
-        <NavLink to="/" exact className="Button">
+        <button className="Button" onClick={signOut}>
           Okay
-        </NavLink>
+        </button>
       </div>
       <div className="Bar">
         <div className="Bar2"></div>

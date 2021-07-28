@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import outlineFileUpload from "@iconify/icons-ic/outline-file-upload";
 import uploadImg from "./icon.png";
 import { useHistory } from "react-router-dom";
 import Location from "aws-sdk/clients/location";
 import awsconfig from "./aws-exports";
-import Amplify, { Auth } from "aws-amplify";
-import audio from "./welcome.mp3";
+import { Auth } from "aws-amplify";
 import { Ripple } from "react-spinners-css";
 import signOut16 from "@iconify/icons-octicon/sign-out-16";
-import { AppStream } from "aws-sdk";
 
 const Home = () => {
   const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");
@@ -18,7 +16,6 @@ const Home = () => {
   } = require("@aws-sdk/credential-provider-cognito-identity");
   const { Polly } = require("@aws-sdk/client-polly");
   const REGION = "us-east-2";
-  const Fs = require("fs");
   const polly = new Polly({
     apiVersion: "2016-06-10",
     region: REGION,
@@ -31,12 +28,17 @@ const Home = () => {
   var face = false;
   const [ID_country, setIDcountry] = useState(null);
   const [IDname, setIDname] = useState(null);
+  const [namestar, setNamestar] = useState(null);
   const [countrysame, setCountry] = useState(false);
-  const [location, SetLocation] = useState(null);
   const [pic, setPic] = useState(null);
-  // const [info, setInfo] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [loc, setLoc] = useState(null);
+  const [userloc, setUserloc] = useState(null);
+  const [moredetail, setMoredetail] = useState(null);
+  var rekognition = "";
   var current_country = null;
   var pics = null;
+  var flags = true;
 
   useEffect(() => {
     Auth.currentUserInfo().then((userInfo) => {
@@ -74,12 +76,6 @@ const Home = () => {
     IdentityPoolId: "us-east-2:a7c0847c-d830-4bd4-8cfd-665bb65b8fbe",
   });
 
-  const S3_BUCKET = "awsbucketwise";
-  const myBucket = new AWS.S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
-  });
-
   //Text Rekognition
   const client = new AWS.Rekognition();
   var tarams = {
@@ -94,107 +90,116 @@ const Home = () => {
   var Name = "";
   var nflag = false;
   var tempName = null;
-  let getTextPromise = new Promise((resolve, reject) => {
-    client.detectText(tarams, function (err, data) {
-      if (err) console.log(err, err.stack);
-      // an error occurred
-      else {
-        origin = data.TextDetections[0]["DetectedText"].slice(9);
-        tempName = data.TextDetections[4]["DetectedText"].slice(5);
-        for (var i = 0; i < tempName.length; i++) {
-          if (tempName[i] == " ") {
-            setIDname(Name);
-            Name += " ";
-            nflag = true;
-          } else if (nflag == false) {
-            Name += tempName[i];
-          } else if (nflag == true) {
-            Name += "*";
-          }
-        }
-        console.log("Text Detected:", data); //Text Detected
-        resolve({ origin }); // successful response
-      }
-    });
-  });
   var coord = {
     IndexName: "MyPlaceIndex",
     Position: [10, 20],
   };
-
   var userlocation = null;
-
-  getTextPromise.then((origin) => {
-    console.log("Origin", origin["origin"]);
-    const createClient = async () => {
-      const credentials = await Auth.currentCredentials();
-      const client = new Location({
-        credentials,
-        region: awsconfig.aws_project_region,
-      });
-      const params = {
-        IndexName: "MyPlaceIndex",
-        Text: origin["origin"],
-        //Need to be retrieved from S3 Text Rekognition
-      };
-      client.searchPlaceIndexForText(params, (err, data) => {
-        if (err) console.error(err);
-        if (data) {
-          setIDcountry(data.Results[0].Place.Country);
-          console.log("ID_Result", data.Results[0]);
-          console.log("ID_country", data.Results[0].Place.Country);
+  const [newflag, setNewflag] = useState(false);
+  useEffect(() => {
+    let getTextPromise = new Promise((resolve, reject) => {
+      client.detectText(tarams, function (err, data) {
+        if (err) {
+          console.log(err, err.stack);
+          setNewflag(!newflag);
+        }
+        // an error occurred
+        else {
+          origin = data.TextDetections[0]["DetectedText"].slice(9);
+          tempName = data.TextDetections[4]["DetectedText"].slice(5);
+          for (var i = 0; i < tempName.length; i++) {
+            if (tempName[i] == " ") {
+              setIDname(Name);
+              Name += " ";
+              nflag = true;
+            } else if (nflag === false) {
+              Name += tempName[i];
+            } else if (nflag === true) {
+              Name += "*";
+            }
+          }
+          setNamestar(Name);
+          //Text Detected
+          resolve({ origin }); // successful response
         }
       });
+    });
 
-      // Creating a promise out of the function
-      let getLocationPromise = new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude;
-            var long = position.coords.longitude;
-            SetLocation([lat, long]);
-            resolve({ latitude: lat, longitude: long });
-          });
-        } else {
-          reject("Your browser doesn't support geolocation API");
-        }
-      });
-
-      getLocationPromise
-        .then((location) => {
-          coord.Position = [location.longitude, location.latitude];
-          client.searchPlaceIndexForPosition(coord, (err, data) => {
-            if (err) console.error(err);
-            if (data) {
-              userlocation = data.Results[0].Place;
-              current_country = data.Results[0].Place["Country"];
-              console.log(current_country, ID_country);
-              if (current_country == ID_country) {
-                setCountry(true);
-              }
-              console.log("Country", data.Results[0].Place["Country"]);
-              console.log("Userlocation", userlocation);
-            } // Current country
-          });
-        })
-        .catch((err) => {
-          console.log(err);
+    getTextPromise.then((origin) => {
+      const createClient = async () => {
+        const credentials = await Auth.currentCredentials();
+        const client = new Location({
+          credentials,
+          region: awsconfig.aws_project_region,
+        });
+        const params = {
+          IndexName: "MyPlaceIndex",
+          Text: origin["origin"],
+          //Need to be retrieved from S3 Text Rekognition
+        };
+        client.searchPlaceIndexForText(params, (err, data) => {
+          if (err) console.error(err);
+          if (data) {
+            setMoredetail(JSON.stringify(data.Results[0].Place));
+            setIDcountry(data.Results[0].Place.Country);
+            console.log("ID_country", data.Results[0].Place.Country);
+          }
         });
 
-      return client;
-    };
-    createClient();
-  });
-  //GeoLocation
+        // Creating a promise out of the function
+        let getLocationPromise = new Promise((resolve, reject) => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+              var lat = position.coords.latitude;
+              var long = position.coords.longitude;
+              resolve({ latitude: lat, longitude: long });
+            });
+          } else {
+            reject("Your browser doesn't support geolocation API");
+          }
+        });
+
+        getLocationPromise
+          .then((location) => {
+            coord.Position = [location.longitude, location.latitude];
+            client.searchPlaceIndexForPosition(coord, (err, data) => {
+              if (err) console.error(err);
+              if (data) {
+                userlocation = data.Results[0].Place;
+                current_country = data.Results[0].Place["Country"];
+                console.log(current_country, ID_country);
+                if (current_country == ID_country) {
+                  setCountry(true);
+                }
+                console.log("Country", data.Results[0].Place["Country"]);
+                console.log("Userlocation", userlocation);
+                setLoc(JSON.stringify(userlocation));
+                setUserloc(userlocation);
+              } // Current country
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
+        return client;
+      };
+      createClient();
+      if (ID_country == null) {
+        setNewflag(!newflag);
+      }
+    });
+    //GeoLocation
+  }, [newflag]);
 
   //POLLY
   var params = {
     OutputFormat: "mp3",
     SampleRate: "22050",
     Text:
-      "Hi" +
+      "Hello!" +
       IDname +
-      "!Welcome to AWS Verify! Please click the button below to upload your selfie.",
+      ".Welcome to AWS Verify! Please click the button below to upload your selfie.",
     TextType: "text",
     VoiceId: "Joanna",
   };
@@ -203,7 +208,6 @@ const Home = () => {
     signer.getSynthesizeSpeechUrl(params, function (error, url) {
       if (error) console.log(error);
       else {
-        console.log("AUDIO:", IDname);
         var audioElement = new Audio();
         audioElement.src = url;
         audioElement.play();
@@ -248,41 +252,103 @@ const Home = () => {
       client.compareFaces(params, function (err, response) {
         console.log(params);
         if (err) {
-          console.log(err, err.stack); // an error occurred
+          console.log(err, err.stack);
+          // an error occurred
         } else {
           response.FaceMatches.forEach((data) => {
             face = true;
-            console.log("FACE Comparison:", face);
             let similarity = data.Similarity;
+            var result =
+              "The selfie and ID picture matches with " +
+              similarity +
+              "% confidence";
             console.log(
               `The selfie and ID picture matches with ${similarity} % confidence`
             );
+            console.log("RESULT", result);
+            rekognition = result;
+            flags = false;
           });
+          if (flags == true) {
+            rekognition = "Face doesn't match";
+          }
         }
+        console.log(
+          "FINAL:",
+          namestar,
+          ID_country,
+          userloc,
+          countrysame,
+          face,
+          rekognition
+        );
+
         history.push({
           pathname: "/locateuser",
           state: {
-            Name: Name,
-            Origin: origin,
-            Loc: userlocation,
+            Name: namestar,
+            Origin: ID_country,
+            Loc: userloc,
             CSame: countrysame,
             FSame: face,
+            Rekognition: rekognition,
           },
         });
       });
     };
   };
 
-  // const onButtonClickHandler = () => {
-  //   setInfo(!info);
-  // };
+  AWS.config.update({
+    region: REGION,
+    credentials: new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: "us-east-2:a7c0847c-d830-4bd4-8cfd-665bb65b8fbe",
+    }),
+  });
+
+  var s3 = new AWS.S3({
+    apiVersion: "2006-03-01",
+    params: { Bucket: "awsbucketwise" },
+  });
+
+  const onClickUpload = (e) => {
+    var files = e.target.files[0];
+    if (files) {
+      var fileName = files.name;
+      var filePath = "IDCard/" + fileName;
+      console.log("FILEPATH", filePath);
+      var fileUrl =
+        "https://awsbucketwise.s3.us-east-2.amazonaws.com/" + fileName;
+
+      s3.upload(
+        {
+          Key: filePath,
+          Body: files,
+        },
+        function (err, data) {
+          if (err) {
+            console.log("error");
+          }
+          console.log("Successfully Uploaded!");
+        }
+      );
+    }
+  };
+
+  const onButtonClickHandler = () => {
+    setInfo(!info);
+  };
 
   if (ID_country != null) {
     return (
       <div className="Background">
-        {/* <button className="Details" onClick={onButtonClickHandler}>
+        <button className="Details" onClick={onButtonClickHandler}>
           Details
-        </button> */}
+        </button>
+        <label>
+          <input type="file" onChange={onClickUpload} />
+          <span className="UploadS3"> Upload ID To S3</span>
+        </label>
+
         <button className="AudioButton" onClick={playAudio}>
           ?
         </button>
@@ -293,17 +359,25 @@ const Home = () => {
             style={{ color: "#ff7a00", fontSize: "30px" }}
           />
         </div>
-        {/* {info && (
+        {info && (
           <div className="Info">
-            User Position (lat, long): <br />[{location[0]}, {location[1]}]{" "}
+            <b>Current User Position:</b>
             <br />
+            {loc} <br /> <br />
+            <b>ID Card :</b>
+            <br />
+            {moredetail}
+            <br />
+            <br />
+            <b> Polly Script:</b> <br />
+            {JSON.stringify(params)}
           </div>
-        )} */}
-        <div className="bCircle"> </div>
-        <div className="fCircle">
-          <img className="uploadPic" src={uploadImg} />
+        )}
+        <div className="bCircle">
+          <div className="fCircle">
+            <img className="uploadPic" src={uploadImg} />
+          </div>
         </div>
-
         <label>
           <input type="file" onChange={changeHandler} />
           <span className="ubutton">

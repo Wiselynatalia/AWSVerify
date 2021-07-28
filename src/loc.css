@@ -19,6 +19,24 @@
   margin: 0;
 }
 
+.Details {
+  background-color: #d8d2c4;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(187, 147, 107, 0.25);
+  border-radius: 5%;
+  width: 100px;
+  height: 60px;
+  top: 5%;
+  left: 2%;
+  position: absolute;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 .dot {
   height: 20px;
   width: 20px;
@@ -29,6 +47,18 @@
   margin-bottom: 8px;
 }
 
+.Info {
+  background-color: white;
+  max-width: 350px;
+  height: 500px;
+  position: absolute;
+  word-wrap: break-word;
+  padding: 10px;
+  left: 2%;
+  top: 13%;
+  z-index: 999;
+}
+
 .preview {
   height: 150px;
 }
@@ -36,7 +66,7 @@
 .whitebox {
   display: inline-block;
   width: 522px;
-  height: 51px;
+  min-height: 51px;
   left: 459px;
   top: 582px;
   background: #f3f3f3;
