@@ -123,7 +123,7 @@ Start command (npm start)
 
 ```
 
-# This is the profile you created with the `amplify configure` command in the introduction step.
+This is the profile you created with the `amplify configure` command in the introduction step.
 Do you want to use an AWS profile
  
 # Hosting with AWS Amplify with Github
