@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./loc.css";
-import Amplify, { Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { useLocation, useHistory } from "react-router-dom";
-import { Ripple } from "react-spinners-css";
-import { Icon, InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import signOut16 from "@iconify/icons-octicon/sign-out-16";
-import awsconfig from "./aws-exports";
 
 export default function Location() {
   const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");

@@ -105,6 +105,14 @@ const Home = () => {
         }
         // an error occurred
         else {
+          var lists = [];
+          for (var j = 0; j < data.TextDetections.length; j++) {
+            lists.push(
+              JSON.stringify(data.TextDetections[j]["DetectedText"]) + " \n"
+            );
+          }
+          setMoredetail(lists);
+          console.log("DATA", lists);
           origin = data.TextDetections[0]["DetectedText"].slice(9);
           tempName = data.TextDetections[4]["DetectedText"].slice(5);
           for (var i = 0; i < tempName.length; i++) {
@@ -140,7 +148,7 @@ const Home = () => {
         client.searchPlaceIndexForText(params, (err, data) => {
           if (err) console.error(err);
           if (data) {
-            setMoredetail(JSON.stringify(data.Results[0].Place));
+            // setMoredetail(JSON.stringify(data.Results[0].Place));
             setIDcountry(data.Results[0].Place.Country);
             console.log("ID_country", data.Results[0].Place.Country);
           }

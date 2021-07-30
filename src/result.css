@@ -52,3 +52,34 @@
 .three {
   background-color: #ffc804;
 }
+
+.Details {
+  background-color: #d8d2c4;
+  box-shadow: -5px -5px 15px #ffffff, 4px 4px 10px rgba(187, 147, 107, 0.25);
+  border-radius: 5%;
+  width: 100px;
+  height: 60px;
+  top: 5%;
+  left: 2%;
+  position: absolute;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.Info {
+  background-color: white;
+  max-width: 350px;
+  max-height: 500px;
+  overflow: scroll;
+  position: absolute;
+  word-wrap: break-word;
+  padding: 10px;
+  left: 2%;
+  top: 13%;
+  z-index: 999;
+}
