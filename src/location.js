@@ -34,7 +34,7 @@ export default function Location() {
   var params = {
     OutputFormat: "mp3",
     SampleRate: "22050",
-    Text: "Here is a summary page of your details. Please click the verify button to continue!",
+    Text: "Here is a summary page of your details. Please click the confirm button to continue!",
     TextType: "text",
     VoiceId: "Joanna",
   };
