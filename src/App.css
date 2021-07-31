@@ -138,10 +138,6 @@ label input {
   width: 100%;
 }
 
-.ubutton:hover {
-  opacity: 75%;
-}
-
 .Bar2 {
   align-items: center;
   margin: auto;
