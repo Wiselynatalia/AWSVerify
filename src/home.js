@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import outlineFileUpload from "@iconify/icons-ic/outline-file-upload";
 import uploadImg from "./icon.png";
+import idcardImg from "./IDcard.png";
 import { useHistory } from "react-router-dom";
 import Location from "aws-sdk/clients/location";
 import awsconfig from "./aws-exports";
@@ -96,12 +97,16 @@ const Home = () => {
   };
   var userlocation = null;
   const [newflag, setNewflag] = useState(false);
+  const [idcardexist, setIdcardexist] = useState(true);
   useEffect(() => {
     let getTextPromise = new Promise((resolve, reject) => {
+      console.log("BBBERROR");
       client.detectText(tarams, function (err, data) {
         if (err) {
+          console.log("ERROR");
           console.log(err, err.stack);
           setNewflag(!newflag);
+          setIdcardexist(false);
         }
         // an error occurred
         else {
@@ -321,8 +326,8 @@ const Home = () => {
   const onClickUpload = (e) => {
     var files = e.target.files[0];
     if (files) {
-      var fileName = files.name;
-      var filePath = "IDCard/" + fileName;
+      var fileName = pic;
+      var filePath = fileName;
       console.log("FILEPATH", filePath);
       var fileUrl =
         "https://awsbucketwise.s3.us-east-2.amazonaws.com/" + fileName;
@@ -339,6 +344,7 @@ const Home = () => {
           console.log("Successfully Uploaded!");
         }
       );
+      setIdcardexist(true);
     }
   };
 
@@ -346,16 +352,46 @@ const Home = () => {
     setInfo(!info);
   };
 
-  if (ID_country != null) {
+  if (idcardexist == false) {
+    return (
+      <div>
+        <div className="UploadIDcards">
+          <img src={idcardImg} />
+        </div>
+        <label>
+          <input type="file" onChange={onClickUpload} />
+          <span className="ubutton">
+            <div className="b_inside">
+              <Icon
+                icon={outlineFileUpload}
+                style={{
+                  color: "#ff7a00",
+                  fontSize: "35px",
+                  display: "inline",
+                }}
+              />
+              <p
+                style={{
+                  fontSize: "25px",
+                  fontWeight: "bolder",
+                  color: "#FF7A00",
+                  margin: "0",
+                }}
+              >
+                {" "}
+                Upload
+              </p>
+            </div>
+          </span>
+        </label>
+      </div>
+    );
+  } else if (ID_country != null) {
     return (
       <div className="Background">
         <button className="Details" onClick={onButtonClickHandler}>
           Details
         </button>
-        <label>
-          <input type="file" onChange={onClickUpload} />
-          <span className="UploadS3"> Upload ID To S3</span>
-        </label>
 
         <button className="AudioButton" onClick={playAudio}>
           ?
