@@ -352,41 +352,7 @@ const Home = () => {
     setInfo(!info);
   };
 
-  if (idcardexist == false) {
-    return (
-      <div>
-        <div className="UploadIDcards">
-          <img src={idcardImg} />
-        </div>
-        <label>
-          <input type="file" onChange={onClickUpload} />
-          <span className="ubutton">
-            <div className="b_inside">
-              <Icon
-                icon={outlineFileUpload}
-                style={{
-                  color: "#ff7a00",
-                  fontSize: "35px",
-                  display: "inline",
-                }}
-              />
-              <p
-                style={{
-                  fontSize: "25px",
-                  fontWeight: "bolder",
-                  color: "#FF7A00",
-                  margin: "0",
-                }}
-              >
-                {" "}
-                Upload
-              </p>
-            </div>
-          </span>
-        </label>
-      </div>
-    );
-  } else if (ID_country != null) {
+  if (ID_country != null) {
     return (
       <div className="Background">
         <button className="Details" onClick={onButtonClickHandler}>
@@ -479,6 +445,40 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
+    );
+  } else if (idcardexist == false) {
+    return (
+      <div>
+        <div className="UploadIDcards">
+          <img src={idcardImg} />
+        </div>
+        <label>
+          <input type="file" onChange={onClickUpload} />
+          <span className="ubutton">
+            <div className="b_inside">
+              <Icon
+                icon={outlineFileUpload}
+                style={{
+                  color: "#ff7a00",
+                  fontSize: "35px",
+                  display: "inline",
+                }}
+              />
+              <p
+                style={{
+                  fontSize: "25px",
+                  fontWeight: "bolder",
+                  color: "#FF7A00",
+                  margin: "0",
+                }}
+              >
+                {" "}
+                Upload
+              </p>
+            </div>
+          </span>
+        </label>
       </div>
     );
   } else {
