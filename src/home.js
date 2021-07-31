@@ -36,6 +36,7 @@ const Home = () => {
   const [loc, setLoc] = useState(null);
   const [userloc, setUserloc] = useState(null);
   const [moredetail, setMoredetail] = useState(null);
+  const [idcardexist, setIdcardexist] = useState(true);
   var rekognition = "";
   var current_country = null;
   var pics = null;
@@ -97,16 +98,18 @@ const Home = () => {
   };
   var userlocation = null;
   const [newflag, setNewflag] = useState(false);
-  const [idcardexist, setIdcardexist] = useState(true);
+
   useEffect(() => {
     let getTextPromise = new Promise((resolve, reject) => {
       console.log("BBBERROR");
       client.detectText(tarams, function (err, data) {
         if (err) {
           console.log("ERROR");
-          console.log(err, err.stack);
+          console.log(err.stack);
+          if (err.stack.includes("InvalidS3ObjectException")) {
+            setIdcardexist(false);
+          }
           setNewflag(!newflag);
-          setIdcardexist(false);
         }
         // an error occurred
         else {
@@ -118,8 +121,17 @@ const Home = () => {
           }
           setMoredetail(lists);
           console.log("DATA", lists);
+          var no = 0;
+          for (var k = 0; k < data.TextDetections.length; k++) {
+            if (data.TextDetections[k]["DetectedText"].includes("Nama")) {
+              no = k;
+              console.log("SUBSTRING", data.TextDetections[k]["DetectedText"]);
+              break;
+            }
+          }
           origin = data.TextDetections[0]["DetectedText"].slice(9);
-          tempName = data.TextDetections[4]["DetectedText"].slice(5);
+          tempName = data.TextDetections[no]["DetectedText"].slice(5);
+          console.log(k, tempName);
           for (var i = 0; i < tempName.length; i++) {
             if (tempName[i] == " ") {
               setIDname(Name);
