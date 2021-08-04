@@ -122,6 +122,7 @@ const Home = () => {
           setMoredetail(lists);
           console.log("DATA", lists);
           var no = 0;
+          var space = 0;
           for (var k = 0; k < data.TextDetections.length; k++) {
             if (data.TextDetections[k]["DetectedText"].includes("Nama")) {
               no = k;
@@ -143,6 +144,8 @@ const Home = () => {
               Name += "*";
             }
           }
+          Name = Name.replace(/[^0-9a-zA-Z *]/gi, "");
+          console.log("NAMMMEEEEE ", Name);
           setNamestar(Name);
           //Text Detected
           resolve({ origin }); // successful response
